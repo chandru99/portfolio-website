@@ -28,3 +28,7 @@ dist-ssr
 
 # OS files
 Thumbs.db
+
+# Local Claude Code tooling (installed skills, agent config) — not project source
+.agents/
+.claude/
