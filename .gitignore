@@ -32,3 +32,4 @@ Thumbs.db
 # Local Claude Code tooling (installed skills, agent config) — not project source
 .agents/
 .claude/
+skills-lock.json
