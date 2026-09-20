@@ -38,18 +38,19 @@ function Nav() {
           ))}
         </ul>
 
-        <button
+        <motion.button
           type="button"
           className="nav-toggle"
           aria-expanded={isOpen}
           aria-controls="nav-mobile-menu"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           onClick={() => setIsOpen((open) => !open)}
+          whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
         >
           <span className="nav-toggle-bar" />
           <span className="nav-toggle-bar" />
           <span className="nav-toggle-bar" />
-        </button>
+        </motion.button>
       </div>
 
       <AnimatePresence initial={false}>

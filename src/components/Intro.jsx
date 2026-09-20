@@ -69,9 +69,15 @@ function Intro({ onDismiss }) {
         Hey, I'm Chandra.
       </motion.p>
 
-      <button ref={skipButtonRef} type="button" className="intro-skip" onClick={onDismiss}>
+      <motion.button
+        ref={skipButtonRef}
+        type="button"
+        className="intro-skip"
+        onClick={onDismiss}
+        whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+      >
         Skip
-      </button>
+      </motion.button>
     </motion.div>
   )
 }

@@ -4,32 +4,60 @@ import BillBackCard from '../components/BillBackCard.jsx'
 import TagRow from '../components/TagRow.jsx'
 import { introduction, panels } from '../data/overviewContent.js'
 import { PHOTO_ALT, PHOTO_SRC } from '../data/photo.js'
-import { DURATION_BASE, EASE_STANDARD } from '../lib/motion.js'
+import { DURATION_BASE, DURATION_FAST, EASE_STANDARD } from '../lib/motion.js'
 import './Overview.css'
 
-function ExperiencePanel({ roles }) {
+// Gap between staggered beats within a role. Derived from DURATION_FAST
+// (150ms) halved rather than a new value, landing at 75ms — inside the
+// tight 60-80ms range this needs, without adding a duration token.
+const BEAT_STAGGER_DELAY = DURATION_FAST / 2
+
+const beatContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: BEAT_STAGGER_DELAY },
+  },
+}
+
+const beatVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: DURATION_BASE, ease: EASE_STANDARD },
+  },
+}
+
+function ExperiencePanel({ roles, shouldReduceMotion }) {
+  const containerMotionProps = shouldReduceMotion
+    ? {}
+    : { initial: 'hidden', animate: 'visible', variants: beatContainerVariants }
+  const beatMotionProps = shouldReduceMotion ? {} : { variants: beatVariants }
+
   return (
     <div className="overview-roles">
       {roles.map((role) => (
-        <article key={role.company} className="role">
+        <motion.article key={role.company} className="role" {...containerMotionProps}>
           <h3 className="role-title">
             {role.company}, {role.title}
             <span className="role-years">{role.years}</span>
           </h3>
-          <p className="role-beat">
+          <motion.p className="role-beat" {...beatMotionProps}>
             <span className="overview-label">Signal</span>
             {role.signal}
-          </p>
-          <p className="role-beat">
+          </motion.p>
+          <motion.p className="role-beat" {...beatMotionProps}>
             <span className="overview-label">Response</span>
             {role.response}
-          </p>
-          <p className="role-beat">
+          </motion.p>
+          <motion.p className="role-beat" {...beatMotionProps}>
             <span className="overview-label">Shift</span>
             {role.shift}
-          </p>
-          <TagRow items={role.tags} />
-        </article>
+          </motion.p>
+          <motion.div {...beatMotionProps}>
+            <TagRow items={role.tags} />
+          </motion.div>
+        </motion.article>
       ))}
     </div>
   )
@@ -64,7 +92,9 @@ function EducationPanel({ education, skills }) {
 }
 
 const PANEL_RENDERERS = {
-  experience: (panel) => <ExperiencePanel roles={panel.roles} />,
+  experience: (panel, shouldReduceMotion) => (
+    <ExperiencePanel roles={panel.roles} shouldReduceMotion={shouldReduceMotion} />
+  ),
   projects: (panel) => <ProjectsPanel featured={panel.featured} entries={panel.entries} />,
   education: (panel) => <EducationPanel education={panel.education} skills={panel.skills} />,
 }
@@ -98,7 +128,7 @@ function Overview() {
       <section className="overview-panels" aria-label="Background">
         <div className="overview-panel-buttons">
           {panels.map((panel) => (
-            <button
+            <motion.button
               key={panel.id}
               type="button"
               className={
@@ -109,9 +139,10 @@ function Overview() {
               aria-expanded={panel.id === activePanel}
               aria-controls="overview-panel"
               onClick={() => togglePanel(panel.id)}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
             >
               {panel.label}
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -126,7 +157,9 @@ function Overview() {
               exit={{ height: 0, opacity: 0 }}
               transition={panelTransition}
             >
-              <div className="overview-panel-inner">{PANEL_RENDERERS[active.id](active)}</div>
+              <div className="overview-panel-inner">
+                {PANEL_RENDERERS[active.id](active, shouldReduceMotion)}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

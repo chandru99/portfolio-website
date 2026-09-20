@@ -41,6 +41,7 @@ function BillBackCard({ name, description, url }) {
       variants={cardVariants}
       animate={isLeaving ? 'leaving' : 'idle'}
       whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
       transition={{
         default: { duration: DURATION_BASE, ease: EASE_STANDARD },
         y: { duration: DURATION_FAST, ease: EASE_STANDARD },
