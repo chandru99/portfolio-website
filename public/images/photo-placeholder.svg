@@ -1,0 +1,7 @@
+<!-- Placeholder photo. Replace this file (or update PHOTO_SRC in
+     src/data/photo.js) with the real photo when it's ready. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500" role="img" aria-label="Placeholder photo">
+  <rect width="400" height="500" fill="#e2e8f0" />
+  <circle cx="200" cy="200" r="72" fill="#475569" />
+  <path d="M72 500c0-84 58-136 128-136s128 52 128 136z" fill="#475569" />
+</svg>

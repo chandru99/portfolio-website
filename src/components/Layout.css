@@ -1,0 +1,6 @@
+.page-content {
+  max-width: 72rem;
+  min-height: 50vh;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}

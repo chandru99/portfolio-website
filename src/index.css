@@ -1,16 +1,65 @@
+/*
+ * Design tokens for the whole site, organized as:
+ * Colors, Typography, Spacing, Radius & Shadow, Motion.
+ * Future pages/components should consume these custom properties
+ * instead of introducing new hard-coded values.
+ */
 :root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  /* ---- Colors (light mode only) ---- */
+  --color-bg: #f8fafc;
+  --color-surface: #f1f5f9;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #475569;
+  --color-border: #e2e8f0;
+  --color-accent: #6366f1;
+  --color-accent-hover: #4f46e5;
+  --color-accent-text: #4338ca;
+  --color-shadow: rgba(15, 23, 42, 0.08);
 
-  color-scheme: light dark;
-}
+  /* ---- Typography ---- */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #16171d;
-    --color-text: #f3f4f6;
-  }
+  /* Modular scale, ratio 1.25 (major third), base 1rem = 16px */
+  --font-size-xs: 0.64rem;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.563rem;
+  --font-size-2xl: 1.953rem;
+  --font-size-3xl: 2.441rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --line-height-heading: 1.15;
+  --line-height-body: 1.6;
+
+  /* ---- Spacing (4px base multiplier) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+
+  /* ---- Radius & shadow ---- */
+  --radius-card: 1rem;
+  --shadow-card: 0 4px 20px var(--color-shadow);
+
+  /* ---- Motion ----
+     Canonical motion values for the whole site: the one easing curve and
+     duration steps used everywhere, both in plain CSS transitions and
+     passed into Framer Motion config, so animation stays consistent. */
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+
+  color-scheme: light;
 }
 
 * {
@@ -19,7 +68,20 @@
 
 body {
   margin: 0;
-  font-family: var(--font-sans);
-  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
   background: var(--color-bg);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav {
+  font-family: var(--font-heading);
+  line-height: var(--line-height-heading);
 }
