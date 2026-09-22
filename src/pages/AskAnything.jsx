@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import TagRow from '../components/TagRow.jsx'
 import { DURATION_BASE, DURATION_FAST, DURATION_SLOW, EASE_STANDARD } from '../lib/motion.js'
 import './AskAnything.css'
 
@@ -55,12 +54,6 @@ function Message({ message, shouldReduceMotion }) {
       {...reveal}
     >
       <p className="ask-bubble">{message.text}</p>
-      {!isUser && message.sources?.length > 0 && (
-        <details className="ask-sources">
-          <summary>Sources</summary>
-          <TagRow items={message.sources.map((source) => source.heading)} />
-        </details>
-      )}
     </motion.div>
   )
 }
@@ -100,10 +93,7 @@ function AskAnything() {
       }
 
       const data = await res.json()
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', text: data.answer, sources: data.sources || [] },
-      ])
+      setMessages((prev) => [...prev, { role: 'assistant', text: data.answer }])
     } catch {
       setMessages((prev) => [
         ...prev,

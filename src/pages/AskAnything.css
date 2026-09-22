@@ -102,23 +102,6 @@
   color: var(--color-bg);
 }
 
-.ask-sources {
-  margin-top: var(--space-2);
-}
-
-.ask-sources summary {
-  cursor: pointer;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.ask-sources .tag-row {
-  margin-top: var(--space-2);
-}
-
 .ask-bubble-loading {
   display: inline-flex;
 }
