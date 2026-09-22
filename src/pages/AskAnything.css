@@ -1,0 +1,198 @@
+.ask-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ask-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+}
+
+.ask-empty {
+  padding: var(--space-6) var(--space-2);
+  overflow: hidden;
+}
+
+.ask-empty-intro {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+}
+
+.ask-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ask-chip {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.ask-chip:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: var(--color-bg);
+}
+
+.ask-chip:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ask-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 36rem;
+}
+
+.ask-message-user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.ask-message-assistant {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.ask-bubble {
+  margin: 0;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+}
+
+.ask-message-user .ask-bubble {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.ask-sources {
+  margin-top: var(--space-2);
+}
+
+.ask-sources summary {
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ask-sources .tag-row {
+  margin-top: var(--space-2);
+}
+
+.ask-bubble-loading {
+  display: inline-flex;
+}
+
+.ask-loading-dots {
+  display: inline-flex;
+  gap: var(--space-2);
+}
+
+.ask-loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-text-secondary);
+}
+
+.ask-form {
+  display: flex;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.ask-input {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+}
+
+.ask-input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.ask-input:disabled {
+  opacity: 0.6;
+}
+
+.ask-send {
+  padding: var(--space-3) var(--space-6);
+  border: none;
+  border-radius: var(--radius-card);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.ask-send:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.ask-send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .ask-message {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-send,
+  .ask-chip {
+    transition: none;
+  }
+}
