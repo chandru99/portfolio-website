@@ -74,6 +74,24 @@ function topChunks(questionEmbedding, k) {
     .map(({ chunk }) => chunk)
 }
 
+// Every chunk in the knowledge base is about Chandra, so his name carries no
+// retrieval signal — but it does carry weight. Measured scores showed queries
+// naming him pulling chunks that merely repeat the name ("Chandra
+// hypothesized...") over genuinely on-topic ones that never spell it out
+// ("A story-first gamer..."), across a corpus whose entire similarity range
+// is only ~0.15 wide. Stripping the name from the *query embedding input*
+// removes that bias. Whole-word only, so "Chandrashekhar" is left alone; the
+// optional possessive avoids leaving a dangling "'s". The generation model
+// still receives the original, unedited question.
+const NAME_PATTERN = /\b(?:chandramouli|chandra)(?:['’]s)?\b/gi
+
+function stripNameForEmbedding(text) {
+  const stripped = text.replace(NAME_PATTERN, ' ').replace(/\s+/g, ' ').trim()
+  // A question that is nothing but the name would strip to empty; embedding
+  // an empty string errors, so fall back to the original text.
+  return stripped.length > 0 ? stripped : text
+}
+
 // Retry + timeout protection for the embed/generate round trip. Added
 // after Gemini's flash tier returned transient 503s where a single
 // failing attempt could itself hang ~10-13s before the SDK surfaced the
@@ -163,9 +181,10 @@ export default async function handler(request, response) {
 
   try {
     const { answer, sources } = await withRetry(async () => {
+      const embedQuery = stripNameForEmbedding(question)
       const embedResponse = await ai.models.embedContent({
         model: EMBEDDING_MODEL,
-        contents: question,
+        contents: embedQuery,
         config: { taskType: 'RETRIEVAL_QUERY' },
       })
       const questionEmbedding = embedResponse.embeddings[0].values
