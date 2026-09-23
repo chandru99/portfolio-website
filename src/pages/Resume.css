@@ -15,7 +15,11 @@
   padding: var(--space-3) var(--space-6);
   border: none;
   border-radius: var(--radius-card);
-  background: var(--color-accent);
+  /* --color-accent only reaches 4.27:1 against --color-bg text, short of
+     WCAG AA's 4.5:1 for normal text. --color-accent-hover (already in the
+     palette) reaches 6.01:1, so it's used here as the resting background
+     instead of introducing a new color. */
+  background: var(--color-accent-hover);
   color: var(--color-bg);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
@@ -26,7 +30,7 @@
 }
 
 .resume-download:hover {
-  background: var(--color-accent-hover);
+  background: var(--color-accent-text);
 }
 
 .resume-download:focus-visible {

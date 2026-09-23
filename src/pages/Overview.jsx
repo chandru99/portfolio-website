@@ -38,10 +38,10 @@ function ExperiencePanel({ roles, shouldReduceMotion }) {
     <div className="overview-roles">
       {roles.map((role) => (
         <motion.article key={role.company} className="role" {...containerMotionProps}>
-          <h3 className="role-title">
+          <h2 className="role-title">
             {role.company}, {role.title}
             <span className="role-years">{role.years}</span>
-          </h3>
+          </h2>
           <motion.p className="role-beat" {...beatMotionProps}>
             <span className="overview-label">Signal</span>
             {role.signal}

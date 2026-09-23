@@ -98,7 +98,11 @@
 }
 
 .ask-message-user .ask-bubble {
-  background: var(--color-accent);
+  /* --color-accent only reaches 4.27:1 against --color-bg text, short of
+     WCAG AA's 4.5:1 for normal text. --color-accent-hover (already in the
+     palette) reaches 6.01:1, so it's used here as the resting background
+     instead of introducing a new color. */
+  background: var(--color-accent-hover);
   color: var(--color-bg);
 }
 
@@ -149,7 +153,9 @@
   padding: var(--space-3) var(--space-6);
   border: none;
   border-radius: var(--radius-card);
-  background: var(--color-accent);
+  /* Same 4.27:1-vs-4.5:1 shortfall as the user chat bubble above; resting
+     state moved a shade darker in the same indigo scale. */
+  background: var(--color-accent-hover);
   color: var(--color-bg);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
@@ -159,7 +165,12 @@
 }
 
 .ask-send:hover:not(:disabled) {
-  background: var(--color-accent-hover);
+  background: var(--color-accent-text);
+}
+
+.ask-send:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .ask-send:disabled {
