@@ -171,6 +171,13 @@
   .ask-message {
     max-width: 100%;
   }
+
+  /* Grows the chip touch target to the ~44px minimum on mobile. Buttons
+     use the UA default line-height (~1.2), not the body's 1.6, so this
+     needs more padding than the equivalent text-link fix elsewhere. */
+  .ask-chip {
+    padding: var(--space-4);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

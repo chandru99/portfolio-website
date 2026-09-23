@@ -50,6 +50,13 @@
   border-color: var(--color-accent-text);
 }
 
+@media (max-width: 600px) {
+  /* Grows the Skip button's touch target to the ~44px minimum on mobile. */
+  .intro-skip {
+    padding: var(--space-4);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .intro-skip {
     transition: none;

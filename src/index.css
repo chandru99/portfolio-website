@@ -3,6 +3,13 @@
  * Colors, Typography, Spacing, Radius & Shadow, Motion.
  * Future pages/components should consume these custom properties
  * instead of introducing new hard-coded values.
+ *
+ * Breakpoint: a single mobile cutoff, `@media (max-width: 600px)`, used
+ * consistently across every component/page stylesheet. Above 600px the
+ * site relies on fluid layout (flex-wrap, grid, max-width containers)
+ * rather than a separate tablet breakpoint. CSS custom properties can't
+ * be referenced inside a media query condition, so this value is a
+ * convention to match literally, not a token to import.
  */
 :root {
   /* ---- Colors (light mode only) ---- */
