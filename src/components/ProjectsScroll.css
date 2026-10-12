@@ -1,0 +1,92 @@
+.projects-pin {
+  position: relative;
+}
+
+.projects-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  /* Nudges the card row down from under the sticky nav bar it scrolls
+     beneath, since this section is pinned to the top of the viewport. */
+  padding-top: 5rem;
+  box-sizing: border-box;
+}
+
+.projects-track {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.project-card {
+  flex: 0 0 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--color-text-primary);
+  transition:
+    box-shadow var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  box-shadow: var(--shadow-card);
+  border-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.project-card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.project-card-name {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.project-card-blurb {
+  color: var(--color-text-secondary);
+}
+
+/* ---- Reduced motion: plain horizontal scroll strip, no pinning ---- */
+
+.projects-track-static {
+  overflow-x: auto;
+  padding-bottom: var(--space-4);
+  scroll-snap-type: x proximity;
+}
+
+.projects-track-static .project-card {
+  scroll-snap-align: start;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 600px) {
+  .project-card {
+    flex-basis: 16rem;
+  }
+
+  .projects-sticky {
+    padding-top: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card {
+    transition: none;
+  }
+}

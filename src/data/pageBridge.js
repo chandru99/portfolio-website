@@ -1,6 +1,11 @@
 const pageBridge = {
   '/': {
     statement: 'This is how I think.',
+    nextPath: '/experience',
+    nextLabel: 'Experience',
+  },
+  '/experience': {
+    statement: "This is what I've done.",
     nextPath: '/into',
     nextLabel: "What I'm Into",
   },

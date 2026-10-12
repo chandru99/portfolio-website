@@ -6,6 +6,7 @@ import './Nav.css'
 
 const NAV_ITEMS = [
   { path: '/', label: 'Overview' },
+  { path: '/experience', label: 'Experience' },
   { path: '/into', label: "What I'm Into" },
   { path: '/ask', label: 'Ask Anything' },
   { path: '/resume', label: 'Resume' },

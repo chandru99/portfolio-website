@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion'
 import Intro from './components/Intro.jsx'
 import Layout from './components/Layout.jsx'
 import Overview from './pages/Overview.jsx'
+import Experience from './pages/Experience.jsx'
 import WhatImInto from './pages/WhatImInto.jsx'
 import AskAnything from './pages/AskAnything.jsx'
 
@@ -31,6 +32,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Overview />} />
+          <Route path="/experience" element={<Experience />} />
           <Route path="/into" element={<WhatImInto />} />
           <Route path="/ask" element={<AskAnything />} />
           <Route
