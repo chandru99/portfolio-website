@@ -25,15 +25,36 @@ const beatVariants = {
   },
 }
 
+// Groups consecutive roles at the same company into one scroll step, so
+// Deloitte's Consultant and Analyst entries reveal together as a single
+// "then Deloitte" beat rather than two separate ones.
+function groupRolesByCompany(allRoles) {
+  return allRoles.reduce((groups, role) => {
+    const last = groups[groups.length - 1]
+    if (last && last.company === role.company) {
+      last.roles.push(role)
+    } else {
+      groups.push({ company: role.company, roles: [role] })
+    }
+    return groups
+  }, [])
+}
+
+const roleGroups = groupRolesByCompany(roles)
+
 function Experience() {
   const shouldReduceMotion = useReducedMotion()
 
+  // Each step only reveals once a third of it has scrolled into view, and
+  // every step reserves a tall slice of viewport height (see .experience-step
+  // in Experience.css), so Applied Medical, then Deloitte, then Education
+  // appear one at a time as you scroll rather than all at once.
   const sectionReveal = shouldReduceMotion
     ? {}
     : {
         initial: { opacity: 0, y: 24 },
         whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, amount: 0.2 },
+        viewport: { once: true, amount: 0.3 },
         transition: { duration: DURATION_BASE, ease: EASE_STANDARD },
       }
 
@@ -42,7 +63,7 @@ function Experience() {
     : {
         initial: 'hidden',
         whileInView: 'visible',
-        viewport: { once: true, amount: 0.2 },
+        viewport: { once: true, amount: 0.3 },
         variants: beatContainerVariants,
       }
   const beatMotionProps = shouldReduceMotion ? {} : { variants: beatVariants }
@@ -53,39 +74,43 @@ function Experience() {
 
       <section className="experience-roles" aria-label="Experience">
         <h2 className="experience-heading">Experience</h2>
-        <div className="overview-roles">
-          {roles.map((role) => (
-            <motion.article
-              key={`${role.company}-${role.title}`}
-              className="role"
-              {...roleContainerMotionProps}
-            >
-              <h3 className="role-title">
-                {role.company}, {role.title}
-                <span className="role-years">{role.years}</span>
-              </h3>
-              <motion.p className="role-beat" {...beatMotionProps}>
-                <span className="overview-label">Signal</span>
-                {role.signal}
-              </motion.p>
-              <motion.p className="role-beat" {...beatMotionProps}>
-                <span className="overview-label">Response</span>
-                {role.response}
-              </motion.p>
-              <motion.p className="role-beat" {...beatMotionProps}>
-                <span className="overview-label">Shift</span>
-                {role.shift}
-              </motion.p>
-              <motion.div {...beatMotionProps}>
-                <TagRow items={role.tags} />
-              </motion.div>
-            </motion.article>
-          ))}
-        </div>
+        {roleGroups.map((group) => (
+          <motion.div key={group.company} className="experience-step" {...sectionReveal}>
+            <div className="overview-roles">
+              {group.roles.map((role) => (
+                <motion.article
+                  key={`${role.company}-${role.title}`}
+                  className="role"
+                  {...roleContainerMotionProps}
+                >
+                  <h3 className="role-title">
+                    {role.company}, {role.title}
+                    <span className="role-years">{role.years}</span>
+                  </h3>
+                  <motion.p className="role-beat" {...beatMotionProps}>
+                    <span className="overview-label">Signal</span>
+                    {role.signal}
+                  </motion.p>
+                  <motion.p className="role-beat" {...beatMotionProps}>
+                    <span className="overview-label">Response</span>
+                    {role.response}
+                  </motion.p>
+                  <motion.p className="role-beat" {...beatMotionProps}>
+                    <span className="overview-label">Shift</span>
+                    {role.shift}
+                  </motion.p>
+                  <motion.div {...beatMotionProps}>
+                    <TagRow items={role.tags} />
+                  </motion.div>
+                </motion.article>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </section>
 
       <motion.section
-        className="experience-education"
+        className="experience-step experience-education"
         aria-label="Education & Skills"
         {...sectionReveal}
       >

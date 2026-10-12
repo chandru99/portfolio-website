@@ -23,6 +23,16 @@
 
 /* ---- Experience ---- */
 
+/* Gives each scroll step enough room that the next one isn't already
+   partway into view when this one reveals, so Applied Medical, Deloitte,
+   and Education appear one at a time as you scroll instead of together. */
+.experience-step {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .overview-roles {
   display: grid;
   gap: var(--space-8);
