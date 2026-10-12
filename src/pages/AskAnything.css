@@ -60,9 +60,9 @@
 }
 
 .ask-chip:hover {
-  background: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
-  color: var(--color-bg);
+  background: var(--color-accent-fill);
+  border-color: var(--color-accent-fill);
+  color: var(--color-text-inverse);
 }
 
 .ask-chip:focus-visible {
@@ -98,12 +98,8 @@
 }
 
 .ask-message-user .ask-bubble {
-  /* --color-accent only reaches 4.27:1 against --color-bg text, short of
-     WCAG AA's 4.5:1 for normal text. --color-accent-hover (already in the
-     palette) reaches 6.01:1, so it's used here as the resting background
-     instead of introducing a new color. */
-  background: var(--color-accent-hover);
-  color: var(--color-bg);
+  background: var(--color-accent-fill);
+  color: var(--color-text-inverse);
 }
 
 .ask-bubble-loading {
@@ -132,12 +128,21 @@
 .ask-input {
   flex: 1;
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
+  /* An empty field has no visible label of its own, so its border is what
+     identifies it as a control — hence the stronger border token. */
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-card);
-  background: var(--color-bg);
+  background: var(--color-surface-raised);
   color: var(--color-text-primary);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
+}
+
+/* The UA default placeholder (#757575) isn't theme-aware once the input
+   declares its own background: it clears AA on white (4.61:1) but drops to
+   3.38:1 on the dark input. Tokenizing it keeps both themes above 7:1. */
+.ask-input::placeholder {
+  color: var(--color-text-secondary);
 }
 
 .ask-input:focus-visible {
@@ -151,12 +156,12 @@
 
 .ask-send {
   padding: var(--space-3) var(--space-6);
-  border: none;
+  /* Transparent rather than none, so the disabled state can show a border
+     without resizing the button and shifting the row. */
+  border: 1px solid transparent;
   border-radius: var(--radius-card);
-  /* Same 4.27:1-vs-4.5:1 shortfall as the user chat bubble above; resting
-     state moved a shade darker in the same indigo scale. */
-  background: var(--color-accent-hover);
-  color: var(--color-bg);
+  background: var(--color-accent-fill);
+  color: var(--color-text-inverse);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
@@ -165,7 +170,7 @@
 }
 
 .ask-send:hover:not(:disabled) {
-  background: var(--color-accent-text);
+  background: var(--color-accent-fill-hover);
 }
 
 .ask-send:focus-visible {
@@ -173,8 +178,13 @@
   outline-offset: 2px;
 }
 
+/* Fading the accent fill to 50% left the label at ~2.1:1 in both themes. A
+   muted surface with secondary text reads as unavailable just as clearly
+   while staying legible. */
 .ask-send:disabled {
-  opacity: 0.5;
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
   cursor: not-allowed;
 }
 

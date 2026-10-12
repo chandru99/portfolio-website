@@ -50,7 +50,7 @@
   gap: var(--space-8);
   align-items: start;
   padding: var(--space-8);
-  background: var(--color-bg);
+  background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
   border-top: 4px solid var(--color-accent);
   border-radius: var(--radius-card);

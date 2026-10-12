@@ -4,13 +4,50 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Chandramouli Sivakumar — Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Chandramouli (Chandra) Sivakumar — four years in SAP and business technology at Deloitte, now an MBA candidate at UC Irvine building BillBack."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <!-- Kept in sync with the active theme by src/lib/theme.js. -->
+    <meta name="theme-color" content="#ffffff" />
+
+    <!--
+      Theme bootstrap. Runs synchronously during head parsing, so the root
+      carries the right data-theme before the first paint and the wrong
+      palette is never shown. It cannot import from src/lib/theme.js — that
+      module loads with the bundle, long after this matters — so the storage
+      key and the stored-then-system resolution order are duplicated here.
+      Change one, change the other.
+    -->
+    <script>
+      ;(function () {
+        var stored = null
+        try {
+          stored = localStorage.getItem('portfolio-theme')
+        } catch (error) {
+          // Blocked or unavailable storage: fall through to the OS preference.
+        }
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+        document.documentElement.dataset.theme = theme
+        var meta = document.querySelector('meta[name="theme-color"]')
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#0b0f17' : '#ffffff')
+      })()
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <title>portfolio-project</title>
   </head>
   <body>
     <div id="root"></div>

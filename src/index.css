@@ -4,6 +4,12 @@
  * Future pages/components should consume these custom properties
  * instead of introducing new hard-coded values.
  *
+ * Colors are defined by role, never by value, and the whole palette lives
+ * in this file — no component declares a literal color. A theme is
+ * therefore a value swap here: `:root` carries light, and
+ * `:root[data-theme="dark"]` overrides it. Nothing sets that attribute
+ * yet; light stays the default until the theme manager lands.
+ *
  * Breakpoint: a single mobile cutoff, `@media (max-width: 600px)`, used
  * consistently across every component/page stylesheet. Above 600px the
  * site relies on fluid layout (flex-wrap, grid, max-width containers)
@@ -12,16 +18,44 @@
  * convention to match literally, not a token to import.
  */
 :root {
-  /* ---- Colors (light mode only) ---- */
-  --color-bg: #f8fafc;
-  --color-surface: #f1f5f9;
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #475569;
-  --color-border: #e2e8f0;
-  --color-accent: #6366f1;
-  --color-accent-hover: #4f46e5;
-  --color-accent-text: #4338ca;
-  --color-shadow: rgba(15, 23, 42, 0.08);
+  /* ---- Colors: light theme (default) ----
+     Ratios below are measured against the surfaces each token is actually
+     used on, and are what the values were chosen to satisfy. */
+
+  /* Surfaces, lowest to highest: page, recessed panel, lifted card. A
+     raised card is white in light mode and reads as lifted through its
+     hairline and shadow; in dark mode it lifts by fill instead. */
+  --color-bg: #ffffff;
+  --color-surface: #f4f6fa;
+  --color-surface-raised: #ffffff;
+
+  /* A hairline divider is decorative; the boundary of an interactive
+     control is not — it's what identifies the control, so it clears the
+     3:1 WCAG 1.4.11 asks for (4.17:1 on page, 3.85:1 on surface). */
+  --color-border: #dde3ec;
+  --color-border-strong: #737d8c;
+
+  --color-text-primary: #0b0f17; /* 19.18:1 on page, 17.73:1 on surface */
+  --color-text-secondary: #4a5565; /* 7.56:1 on page, 6.99:1 on surface */
+  /* Text that sits on an accent fill. Not interchangeable with the page
+     background: the two point in opposite directions once dark mode flips. */
+  --color-text-inverse: #ffffff; /* 5.17:1 on --color-accent-fill */
+
+  /* One blue cannot do every job in both themes, so each has its own token:
+     accent       — graphics and focus rings (needs 3:1)
+     accent-text  — link and label text (needs 4.5:1)
+     accent-hover — hover for link text and borders
+     accent-fill  — filled button/badge background, paired with text-inverse
+     In light all three can be the same brand blue because #2563eb clears
+     every one of those bars (5.17:1 on page, 4.78:1 on surface). In dark
+     they genuinely diverge — see the dark block. */
+  --color-accent: #2563eb;
+  --color-accent-text: #2563eb;
+  --color-accent-hover: #1d4ed8; /* 6.70:1 on page */
+  --color-accent-fill: #2563eb;
+  --color-accent-fill-hover: #1d4ed8;
+
+  --color-shadow: rgba(11, 15, 23, 0.08);
 
   /* ---- Typography ---- */
   --font-heading: 'Space Grotesk', sans-serif;
@@ -67,6 +101,67 @@
   --duration-slow: 500ms;
 
   color-scheme: light;
+}
+
+/* ---- Colors: dark theme ----
+   Opt-in only for now. Nothing sets data-theme yet, so this block is
+   inert until the theme manager selects it; to preview, set
+   document.documentElement.dataset.theme = 'dark'. Only color roles are
+   overridden — typography, spacing, radius and motion are theme-neutral.
+   --shadow-card isn't redeclared: it resolves var(--color-shadow) from
+   whichever theme is in effect. */
+:root[data-theme='dark'] {
+  --color-bg: #0b0f17;
+  --color-surface: #151b26;
+  --color-surface-raised: #1c2432;
+
+  --color-border: #2b3542;
+  --color-border-strong: #8a94a3; /* 6.25:1 on page, 5.08:1 on raised */
+
+  --color-text-primary: #f3f6fa; /* 17.69:1 on page, 14.37:1 on raised */
+  --color-text-secondary: #a8b2c1; /* 8.95:1 on page, 7.27:1 on raised */
+  --color-text-inverse: #0b0f17; /* 5.21:1 on --color-accent-fill */
+
+  /* Where the blues split. The light blue that reads as text on a dark
+     page (7.54:1) is far too light to sit behind inverse text, so fills
+     step down a shade and carry near-black text instead. */
+  --color-accent: #60a5fa;
+  --color-accent-text: #60a5fa; /* 7.54:1 on page, 6.13:1 on raised */
+  --color-accent-hover: #93c5fd; /* 10.64:1 on page */
+  --color-accent-fill: #3b82f6;
+  --color-accent-fill-hover: #60a5fa;
+
+  /* Shadows barely read on dark, where elevation comes mostly from the
+     raised surface fill, so this only deepens the edge. */
+  --color-shadow: rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
+/*
+ * Theme-switch cross-fade. src/lib/theme.js sets data-theme-transition for
+ * one duration around a runtime theme change and removes it again, so the
+ * initial load — where the bootstrap applies the theme before the first
+ * paint — never animates, and the page isn't left carrying global
+ * transitions the rest of the time.
+ *
+ * Only paint properties are listed. transform and opacity are deliberately
+ * excluded so Framer Motion, which animates those through inline styles,
+ * is never double-driven. !important is what lets the whole page move as
+ * one: without it, components with their own shorter color transitions
+ * (nav links, buttons, chips) would arrive ahead of everything else.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme-transition],
+  :root[data-theme-transition] *,
+  :root[data-theme-transition] *::before,
+  :root[data-theme-transition] *::after {
+    transition:
+      background-color var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard),
+      color var(--duration-base) var(--ease-standard),
+      box-shadow var(--duration-base) var(--ease-standard) !important;
+  }
 }
 
 * {

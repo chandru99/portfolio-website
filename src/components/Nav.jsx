@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import ThemeToggle from './ThemeToggle.jsx'
 import { DURATION_BASE, EASE_STANDARD } from '../lib/motion.js'
 import './Nav.css'
 
@@ -38,6 +39,12 @@ function Nav() {
             </li>
           ))}
         </ul>
+
+        {/* Sits between the links and the hamburger on purpose: on desktop
+            that puts it after the links, and at mobile widths — where the
+            links are hidden — it lands beside the hamburger, without
+            needing a second instance or moving into the collapsible menu. */}
+        <ThemeToggle />
 
         <motion.button
           type="button"
