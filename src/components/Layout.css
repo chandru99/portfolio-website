@@ -1,6 +1,14 @@
 .page-content {
+  /* Closed nav: theme control, vertical padding, and the bottom border. */
+  --page-nav-height: calc(2.25rem + var(--space-4) * 2 + 1px);
   max-width: 72rem;
   min-height: 50vh;
   margin: 0 auto;
   padding: var(--space-8) var(--space-6);
+}
+
+.page-content-overview { padding-top: 0; }
+
+@media (max-width: 600px) {
+  .page-content { --page-nav-height: calc(2.75rem + var(--space-4) * 2 + 1px); }
 }

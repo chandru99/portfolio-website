@@ -1,6 +1,8 @@
 .overview-hero {
   /* Local accent only; the approved global palette and page surfaces stay intact. */
   --hero-blue: #0077ff;
+  --hero-height: calc(100svh - var(--page-nav-height));
+  --hero-photo-bleed: min(3svh, 1.5rem);
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 62fr) minmax(0, 38fr);
@@ -8,7 +10,7 @@
   grid-template-areas: 'copy photo' 'cue cue';
   column-gap: clamp(1rem, 3vw, 3rem);
   align-items: center;
-  min-height: calc(100svh - 6.8rem);
+  min-height: var(--hero-height);
   padding-bottom: 1rem;
 }
 
@@ -21,20 +23,29 @@
 
 .overview-hero .hero-visual {
   grid-area: photo;
-  height: min(90svh, 56rem);
-  /* Source includes clear headroom; align the actual subject with the copy. */
+  /* Reserve the cue row while using the photo's empty headroom to keep the
+     full-body subject large. The small overhang stays beside the arrow. */
+  height: min(calc(var(--hero-height) - 4.75rem + var(--hero-photo-bleed) * 2), 56rem);
+  margin-block: calc(var(--hero-photo-bleed) * -1);
   width: 100%;
 }
 
 .overview-hero-cue {
   grid-area: cue;
+  /* On very short/zoomed screens, the copy can scroll and the cue stays in
+     reach. It remains bounded by this hero, never by the rest of the page. */
+  position: sticky;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  justify-self: center;
+  align-self: end;
   display: flex;
   justify-content: center;
   padding-top: 1rem;
 }
 
 /* Keep the row's space so dismissing the arrow cannot move the scroll target. */
-.overview-hero-cue[data-dismissed='true'] {
+.overview-hero-cue[data-dismissed='true'],
+.overview-hero-cue[data-pending='true'] {
   visibility: hidden;
 }
 
@@ -160,7 +171,28 @@
 
 @media (min-width: 601px) and (max-width: 900px) {
   .hero-heading { font-size: clamp(2.75rem, 5.9vw, 3.5rem); }
-  .overview-hero .hero-visual { height: min(84svh, 44rem); }
+}
+
+/* Short laptop windows keep the whole introduction above the arrow. */
+@media (min-width: 601px) and (max-height: 700px) {
+  .overview-hero .hero-heading { font-size: clamp(2rem, min(7vw, 10svh), 6.25rem); }
+  .overview-positioning {
+    margin-top: 1rem;
+    font-size: clamp(1.125rem, min(2.6vw, 3.9svh), 2.25rem);
+  }
+  .overview-description { margin-top: 0.75rem; }
+  .overview-actions { margin-top: 0.875rem; }
+}
+
+@media (min-width: 601px) and (max-height: 450px) {
+  .overview-hero .hero-heading { font-size: clamp(1.75rem, 8svh, 2.25rem); }
+  .overview-positioning { margin-top: 0.75rem; }
+  .overview-description { margin-top: 0.5rem; font-size: 0.9375rem; line-height: 1.5; }
+  .overview-actions { margin-top: 0.75rem; }
+}
+
+@media (min-width: 601px) and (max-width: 740px) and (max-height: 450px) {
+  .overview-actions { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 600px) {
@@ -169,7 +201,6 @@
     grid-template-rows: auto auto auto 1fr;
     grid-template-areas: 'lede photo' 'body body' 'actions actions' 'cue cue';
     column-gap: 0.25rem;
-    min-height: calc(100svh - 6.8rem);
   }
   .overview-hero-copy { display: contents; }
   .overview-hero-lede { grid-area: lede; min-width: 0; }
@@ -177,6 +208,7 @@
   .overview-hero .hero-visual {
     height: auto;
     width: 100%;
+    margin-block: 0;
     aspect-ratio: 768 / 1376;
   }
   .overview-positioning {
@@ -197,4 +229,11 @@
   }
   .overview-hero-cue { align-self: end; padding-top: 1.25rem; }
   .overview-ventures-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) and (max-height: 700px) {
+  .overview-hero .hero-visual {
+    height: clamp(5rem, calc(100svh - 30rem), 14rem);
+    aspect-ratio: auto;
+  }
 }

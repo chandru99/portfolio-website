@@ -6,11 +6,15 @@ import HeroHeading from '../components/HeroHeading.jsx'
 import HeroVisual from '../components/HeroVisual.jsx'
 import ProjectsScroll from '../components/ProjectsScroll.jsx'
 import ScrollCue from '../components/ScrollCue.jsx'
+import SplitLines from '../components/SplitLines.jsx'
 import { hero, ventures, projects } from '../data/overviewContent.js'
 import { DURATION_BASE, EASE_STANDARD } from '../lib/motion.js'
 import { useHeroScrollGate } from '../lib/useHeroScrollGate.js'
 import { scrollToSection } from '../lib/scrollToSection.js'
 import './Overview.css'
+
+// Beat of silence after the name finishes, before the statement begins.
+const STATEMENT_PAUSE = 0.7
 
 function VentureCard({ name, description, url }) {
   if (url) {
@@ -41,6 +45,10 @@ function Overview() {
   const [statementDone, setStatementDone] = useState(false)
   const handleIntroComplete = useCallback(() => setIntroDone(true), [])
   const handleStatementComplete = useCallback(() => setStatementDone(true), [])
+
+  // The cue arrives with the buttons: both are the last beat of the intro.
+  const cuePending = !shouldReduceMotion && !statementDone
+  const cueHidden = hasContinued || cuePending
 
   const stage = (ready, delay = 0) =>
     shouldReduceMotion
@@ -87,12 +95,16 @@ function Overview() {
           </div>
 
           <div className="overview-hero-body">
-            <motion.p className="overview-positioning" {...stage(introDone, 1)}
-              onAnimationComplete={(definition) => {
-                if (definition === 'visible') handleStatementComplete()
-              }}>
-              {hero.positioning}
-            </motion.p>
+            {/* Reveals one measured visual line at a time, rather than the
+                paragraph fading in as a block. The lead-in delay lets the
+                name land and settle before the statement starts. */}
+            <SplitLines
+              className="overview-positioning"
+              text={hero.positioning}
+              ready={introDone}
+              delay={STATEMENT_PAUSE}
+              onComplete={handleStatementComplete}
+            />
             <motion.p className="overview-description" {...stage(statementDone)}>
               {hero.description}
             </motion.p>
@@ -136,7 +148,8 @@ function Overview() {
 
         <HeroVisual />
 
-        <div className="overview-hero-cue" data-dismissed={hasContinued} aria-hidden={hasContinued} inert={hasContinued}>
+        <div className="overview-hero-cue" data-pending={cuePending} data-dismissed={hasContinued}
+          aria-hidden={cueHidden} inert={cueHidden}>
           <ScrollCue targetId="current-ventures" label="Continue to Current Ventures" onContinue={handleContinue} />
         </div>
       </section>

@@ -1,0 +1,29 @@
+/* The hidden copy holds the real line boxes open; the animated lines are
+   laid over it so splitting never changes the paragraph's footprint. */
+.split-lines {
+  position: relative;
+}
+
+.split-lines-measure {
+  display: block;
+  visibility: hidden;
+}
+
+.split-lines-live {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+/* Each line rises out of its own clipped box. The padding/margin pair keeps
+   descenders from being shaved off by that clip. */
+.split-lines-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.split-lines-line {
+  display: block;
+}

@@ -48,7 +48,7 @@ function Layout() {
   return (
     <>
       <Nav />
-      <main className="page-content">
+      <main className={`page-content${pathname === '/' ? ' page-content-overview' : ''}`}>
         <Outlet context={{ isHistoryNavigation }} />
       </main>
       <CurrentlyWorkingOn />

@@ -28,11 +28,19 @@ export function useHeroScrollGate(heroRef) {
       const cue = hero.querySelector('.scroll-cue')
       const rect = cue?.getBoundingClientRect()
       const style = cue && getComputedStyle(cue)
+      // A timed reveal is intentional. Keep the gate while the cue is waiting;
+      // keyboard/skip links can still leave the introduction immediately.
+      const cuePending = cue?.closest('[data-pending="true"]')
       const navBottom = document.querySelector('.nav')?.getBoundingClientRect().bottom ?? 0
+      // Sticky cues can already be reachable before a tall hero reaches its
+      // scroll boundary. Only project a normal-flow cue if it is off screen.
+      const cueInView = rect && rect.top >= navBottom && rect.bottom <= window.innerHeight
+      const cueAtBoundary = rect &&
+        rect.bottom + window.scrollY <= boundary() + window.innerHeight &&
+        rect.top + window.scrollY - boundary() >= navBottom
       if (!rect || rect.width < 24 || rect.height < 24 ||
-          style.visibility === 'hidden' || style.opacity === '0' || style.pointerEvents === 'none' || cue.disabled ||
-          rect.bottom + window.scrollY > boundary() + window.innerHeight ||
-          rect.top + window.scrollY - boundary() < navBottom ||
+          (!cuePending && (style.visibility === 'hidden' || style.opacity === '0')) || style.pointerEvents === 'none' || cue.disabled ||
+          (!cueInView && !cueAtBoundary) ||
           document.querySelector('.nav-toggle[aria-expanded="true"]')) release()
       return !released.current
     }
