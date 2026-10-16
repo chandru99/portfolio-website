@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import ThemeToggle from './ThemeToggle.jsx'
 import { DURATION_BASE, EASE_STANDARD } from '../lib/motion.js'
@@ -20,8 +20,18 @@ function navLinkClassName({ isActive }) {
 function Nav() {
   const [isOpen, setIsOpen] = useState(false)
   const shouldReduceMotion = useReducedMotion()
+  const { pathname } = useLocation()
 
   const closeMenu = () => setIsOpen(false)
+
+  // Layout's scroll reset only fires on a pathname change, so clicking Home
+  // while already on Overview would otherwise do nothing.
+  function handleHomeClick(event) {
+    closeMenu()
+    if (pathname !== '/') return
+    event.preventDefault()
+    window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' })
+  }
 
   const panelTransition = shouldReduceMotion
     ? { duration: 0 }
@@ -30,6 +40,24 @@ function Nav() {
   return (
     <nav className="nav" aria-label="Primary">
       <div className="nav-bar">
+        <NavLink to="/" className="nav-home" aria-label="Home — Overview" onClick={handleHomeClick}>
+          <svg
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.9"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M3 10.6 12 3.5l9 7.1" />
+            <path d="M5.4 9.3V20h13.2V9.3" />
+          </svg>
+        </NavLink>
+
         <ul className="nav-links nav-links-desktop">
           {NAV_ITEMS.map((item) => (
             <li key={item.path}>
@@ -40,10 +68,9 @@ function Nav() {
           ))}
         </ul>
 
-        {/* Sits between the links and the hamburger on purpose: on desktop
-            that puts it after the links, and at mobile widths — where the
-            links are hidden — it lands beside the hamburger, without
-            needing a second instance or moving into the collapsible menu. */}
+        {/* After the links on desktop, which puts it at the far right; at
+            mobile widths the links are hidden, so it lands beside the
+            hamburger without needing a second instance. */}
         <ThemeToggle />
 
         <motion.button

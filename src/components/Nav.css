@@ -15,6 +15,31 @@
   padding: var(--space-4) var(--space-6);
 }
 
+/* Pushes everything else to the right while staying left-aligned itself. */
+.nav-home {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 44px touch target, matching the hamburger. */
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-right: auto;
+  margin-left: calc(var(--space-3) * -1);
+  border-radius: 9999px;
+  color: var(--color-text-primary);
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.nav-home:hover {
+  color: var(--color-accent-text);
+}
+
+.nav-home:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 .nav-links,
 .nav-links-mobile {
   list-style: none;
@@ -107,7 +132,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-link {
+  .nav-link,
+  .nav-home {
     transition: none;
   }
 }

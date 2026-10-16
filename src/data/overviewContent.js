@@ -1,6 +1,18 @@
-export const introduction = {
-  bio: "I spent four years building inside SAP for a Fortune 100 manufacturer, not because the software fascinated me, but because that's where the real business problems lived. I got good at finding the problem underneath the stated one, then owning the fix, technical or not. Now I'm at UC Irvine building the toolkit that lets me own those calls end to end, while proving it in real time with BillBack.",
-  quote: 'Hard work is the mother of good luck.',
+export const hero = {
+  // Split across two lines in the heading, and revealed word by word.
+  greeting: 'Hi, I am',
+  name: 'Chandramouli',
+  positioning:
+    'I solve complex enterprise problems with efficient and scalable tech solutions.',
+  description:
+    "I spent four years at Deloitte driving enterprise-grade technology transformations with SAP. Now, through my MBA, I'm sharpening the skills to lead and transform organizations.",
+  primaryCta: {
+    label: "Let's connect",
+    // Taken from the contact line of the resume PDF in public/resume/.
+    href: 'https://www.linkedin.com/in/chanmouli',
+  },
+  // No destination yet — rendered as an unavailable action until there is one.
+  secondaryCta: { label: 'How I Think' },
 }
 
 export const ventures = [

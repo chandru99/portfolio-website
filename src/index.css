@@ -54,12 +54,16 @@
   --color-accent-hover: #1d4ed8; /* 6.70:1 on page */
   --color-accent-fill: #2563eb;
   --color-accent-fill-hover: #1d4ed8;
+  /* Very low-alpha accent used only as a wash behind the hero photograph. */
+  --color-accent-wash: rgba(37, 99, 235, 0.05);
 
   --color-shadow: rgba(11, 15, 23, 0.08);
 
   /* ---- Typography ---- */
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
+  /* Reserved for the Overview hero's display type. */
+  --font-display: 'Manrope', 'Space Grotesk', sans-serif;
 
   /* Modular scale, ratio 1.25 (major third), base 1rem = 16px */
   --font-size-xs: 0.64rem;
@@ -130,6 +134,7 @@
   --color-accent-hover: #93c5fd; /* 10.64:1 on page */
   --color-accent-fill: #3b82f6;
   --color-accent-fill-hover: #60a5fa;
+  --color-accent-wash: rgba(96, 165, 250, 0.045);
 
   /* Shadows barely read on dark, where elevation comes mostly from the
      raised surface fill, so this only deepens the edge. */
