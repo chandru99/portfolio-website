@@ -13,8 +13,6 @@
   width: fit-content;
   white-space: nowrap;
 }
-.hero-heading-word { display: inline-block; }
-.hero-heading-word + .hero-heading-word { margin-left: 0.26em; }
 .hero-heading-name { color: var(--hero-blue); }
 .hero-heading-cursor {
   position: absolute;
