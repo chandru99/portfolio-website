@@ -25,11 +25,15 @@
     radial-gradient(ellipse at 50% 94%, rgb(0 119 255 / 0.16), transparent 24%);
   opacity: 0;
 }
+/* Height-led: the hero's height sets the size and the width follows from
+   the aspect ratio, so the element box matches the painted image and the
+   column never carries slack around it. */
 .hero-photo {
   grid-area: 1 / 1;
   display: block;
-  width: 100%;
   height: 100%;
+  width: auto;
+  max-width: 100%;
   min-height: 0;
   object-fit: contain;
 }

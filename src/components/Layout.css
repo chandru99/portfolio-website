@@ -7,7 +7,17 @@
   padding: var(--space-8) var(--space-6);
 }
 
-.page-content-overview { padding-top: 0; }
+/* Overview runs wider than the other routes: its Projects row needs the
+   extra width. The hero sets its own width above 1200px, so this only
+   affects the sections below it. */
+.page-content-overview {
+  /* Published so sections that bleed past the container (the projects
+     ticker) can cancel exactly this much and no more. */
+  --page-gutter: clamp(var(--space-4), 4vw, var(--space-8));
+  padding-top: 0;
+  max-width: 80rem;
+  padding-inline: var(--page-gutter);
+}
 
 @media (max-width: 600px) {
   .page-content { --page-nav-height: calc(2.75rem + var(--space-4) * 2 + 1px); }

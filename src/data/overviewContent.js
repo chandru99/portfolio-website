@@ -15,6 +15,19 @@ export const hero = {
   secondaryCta: { label: 'How I Think' },
 }
 
+// One statement, split only so two phrases can carry the accent colour.
+// Keep the segments joined exactly as written — the wording is fixed.
+export const philosophy = {
+  heading: 'What guides me',
+  quote: [
+    { text: '“Earn your luck through ' },
+    { text: 'hard work', accent: true },
+    { text: ', never compromise on ' },
+    { text: 'honesty', accent: true },
+    { text: ', and use what you need, respect what you take.”' },
+  ],
+}
+
 export const ventures = [
   {
     id: 'billback',
@@ -33,30 +46,58 @@ export const ventures = [
 
 // Placeholder entries — real descriptions/results to be filled in one
 // project at a time.
-export const projects = [
-  {
-    id: 'frw',
-    name: 'FRW Case Competition',
-    blurb: 'Placeholder description — details to come.',
-  },
-  {
-    id: 'sega',
-    name: 'SEGA Case Competition',
-    blurb: 'Placeholder description — details to come.',
-  },
-  {
-    id: 'datathon-lmu',
-    name: 'Datathon at LMU',
-    blurb: 'Placeholder description — details to come.',
-  },
-  {
-    id: 'usc-marshall',
-    name: 'AI Product Challenge, USC Marshall',
-    blurb: 'Placeholder description — details to come.',
-  },
-  {
-    id: 'butterworth',
-    name: 'Butterworth Product Competition',
-    blurb: 'Placeholder description — details to come.',
-  },
-]
+// Email and LinkedIn come from the contact line of the resume PDF in
+// public/resume/. The GitHub handle is taken from this repository's own
+// origin remote — it is not stated anywhere as a contact link, so confirm
+// it before relying on it.
+export const contact = {
+  eyebrow: 'Interested in connecting?',
+  heading: "Let's connect.",
+  description:
+    "I'm always open to conversations about product strategy, enterprise technology, AI, and opportunities to solve meaningful business problems.",
+  links: [
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/chanmouli',
+      external: true,
+      primary: true,
+    },
+    { id: 'email', label: 'Email', href: 'mailto:sivakumc@uci.edu' },
+    { id: 'github', label: 'GitHub', href: 'https://github.com/chandru99', external: true },
+  ],
+}
+
+// Card artwork isn't in the repo yet. Drop a file in public/images/projects/
+// and point `image` at it; the card falls back to a plain tinted panel until
+// then, so nothing invents a thumbnail.
+export const projects = {
+  eyebrow: 'Selected work',
+  heading: 'Projects',
+  // No projects route exists yet, so this renders as an unavailable action
+  // rather than pointing somewhere that isn't built.
+  viewAll: { label: 'View all' },
+  items: [
+    {
+      id: 'sap-salesforce',
+      title: 'SAP–Salesforce Order Platform',
+      metric: '+35–40% processing efficiency',
+      tags: ['SAP', 'Salesforce', 'APIs'],
+      image: null,
+    },
+    {
+      id: 'compliance-snowflake',
+      title: 'Compliance Automation with Snowflake',
+      metric: '80% faster approvals',
+      tags: ['SAP', 'Snowflake', 'Automation'],
+      image: null,
+    },
+    {
+      id: 'poland-ksef',
+      title: 'Poland e-Invoicing (KSeF)',
+      metric: '100% regulatory readiness',
+      tags: ['EDICOM', 'SAP', 'Integration'],
+      image: null,
+    },
+  ],
+}

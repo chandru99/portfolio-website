@@ -5,7 +5,10 @@
   --hero-photo-bleed: min(3svh, 1.5rem);
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 62fr) minmax(0, 38fr);
+  /* The photograph is bound by the hero's height, not its column, so its
+     track is sized to the image itself. A fixed fraction only padded the
+     column with empty space on short viewports. */
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: 1fr auto;
   grid-template-areas: 'copy photo' 'cue cue';
   column-gap: clamp(1rem, 3vw, 3rem);
@@ -146,21 +149,14 @@
   color: var(--color-accent-text);
 }
 
-#current-ventures { scroll-margin-top: 5.5rem; }
-
 .overview-section-heading {
   margin: 0 0 var(--space-6);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-medium);
 }
-.overview-ventures,
-.overview-projects { margin-top: calc(var(--space-8) * 2); }
-.overview-ventures-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: var(--space-6);
-}
-.venture-card-static { cursor: default; }
+/* Tighter than the old two-section rhythm: What Guides Me is a short
+   transition, so Projects should follow it closely. */
+.overview-projects { margin-top: var(--space-8); }
 
 @media (min-width: 1200px) {
   .overview-hero {
@@ -228,7 +224,6 @@
     border-radius: 0.875rem;
   }
   .overview-hero-cue { align-self: end; padding-top: 1.25rem; }
-  .overview-ventures-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 600px) and (max-height: 700px) {

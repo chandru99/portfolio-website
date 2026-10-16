@@ -1,8 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigationType } from 'react-router-dom'
 import Nav from './Nav.jsx'
-import CurrentlyWorkingOn from './CurrentlyWorkingOn.jsx'
-import PageBridge from './PageBridge.jsx'
 import './Layout.css'
 
 function Layout() {
@@ -45,14 +43,14 @@ function Layout() {
     }
   }, [pathname, hash, key, navigationType])
 
+  const isOverview = pathname === '/'
+
   return (
     <>
       <Nav />
-      <main className={`page-content${pathname === '/' ? ' page-content-overview' : ''}`}>
+      <main className={`page-content${isOverview ? ' page-content-overview' : ''}`}>
         <Outlet context={{ isHistoryNavigation }} />
       </main>
-      <CurrentlyWorkingOn />
-      <PageBridge />
     </>
   )
 }

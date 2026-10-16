@@ -1,0 +1,242 @@
+.projects {
+  margin-top: var(--space-6);
+}
+
+/* Full-bleed window: cards travel past the container's edges rather than
+   stopping at them, which is what makes the loop read as continuous. The
+   fade is a few percent so cards dissolve into the page instead of being
+   clipped against a hard line. */
+.projects-viewport {
+  margin-top: var(--space-7);
+  margin-inline: calc(var(--page-gutter, var(--space-6)) * -1);
+  padding-inline: var(--page-gutter, var(--space-6));
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+  /* The row is dragged by finger; the browser keeps vertical scrolling. */
+  touch-action: pan-y;
+}
+
+/* Reduced motion: no travel, just a row the visitor scrolls themselves. */
+.projects-viewport-static {
+  overflow-x: auto;
+  padding-bottom: var(--space-3);
+  scroll-snap-type: x proximity;
+  touch-action: auto;
+}
+
+.projects-viewport-static .project-card {
+  scroll-snap-align: start;
+}
+
+.projects-track {
+  display: flex;
+  gap: var(--space-6);
+  width: max-content;
+  /* Hints the compositor; the loop only ever writes transform. */
+  will-change: transform;
+}
+
+
+.projects-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.projects-eyebrow {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.projects-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+
+.projects-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+/* Hidden until tabbed to, then it takes its place in the header rather
+   than overlapping anything. */
+.projects-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.projects-toggle:focus-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  overflow: visible;
+  clip: auto;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.projects-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--hero-blue, var(--color-accent-text));
+  cursor: not-allowed;
+}
+
+.projects-view-all:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+.projects-view-all-note {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.project-card {
+  /* Fixed width so the row has a real length to travel; cards never
+     squeeze to fit the viewport. */
+  flex: 0 0 28rem;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition:
+    transform var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard);
+}
+
+/* The ticker already stops on hover, so the card lifts against a still
+   row rather than a moving one. */
+.project-card:hover {
+  transform: scale(1.035);
+  border-color: var(--hero-blue, var(--color-accent));
+}
+
+/* Holds the thumbnail's space before any artwork exists, so adding images
+   later doesn't change the card's height. */
+.project-card-media {
+  aspect-ratio: 16 / 10;
+  margin-bottom: var(--space-5);
+  overflow: hidden;
+  border-radius: calc(var(--radius-card) - 0.35rem);
+  background:
+    radial-gradient(120% 120% at 20% 0%, var(--color-accent-wash) 0%, transparent 60%),
+    var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+}
+
+.project-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card-title {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
+.project-card-metric {
+  margin: 0 0 var(--space-5);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card-tags li {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-bg);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .projects-stage {
+    gap: var(--space-6);
+  }
+
+  .project-card {
+    flex-basis: min(20rem, 78vw);
+    padding: var(--space-4);
+  }
+
+  .projects-track {
+    gap: var(--space-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-toggle {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card {
+    transition: none;
+  }
+}
